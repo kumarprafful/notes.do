@@ -1,10 +1,11 @@
 import { Icon } from '@ui-kitten/components';
 import React, { useRef } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import Layout from "../components/generics/Layout";
+import Toolbar from '../components/generics/Toolbar';
 import Typography from "../components/generics/Typography";
-import { FONT_STYLE, notes } from '../data';
+import { FONT_STYLE, ICON_COLOR, notes } from '../data';
 
 function NoteDetailScreen({
     navigation,
@@ -23,18 +24,21 @@ function NoteDetailScreen({
             <View style={styles.header}>
                 <Icon
                     name="arrow-ios-back-outline"
-                    fill='#8F9BB3'
+                    fill={ICON_COLOR}
                     style={styles.icon}
                     onPress={() => navigation.goBack()}
                 />
+                <Typography>
+                    Updated at
+                </Typography>
                 <Icon
                     name="trash-2-outline"
-                    fill='#8F9BB3'
-                    style={styles.icon}
+                    fill={ICON_COLOR}
+                    style={styles.iconAlt}
                     onPress={() => navigation.goBack()}
                 />
-                
             </View>
+
             <ScrollView
                 style={styles.container}
             >
@@ -43,7 +47,7 @@ function NoteDetailScreen({
                     multiline={true}
                     style={styles.title}
                     onKeyPress={(e) => {
-                        if(e.nativeEvent.key === 'Enter'){
+                        if (e.nativeEvent.key === 'Enter') {
                             titleRef.current.focus();
                         }
                     }}
@@ -60,6 +64,7 @@ function NoteDetailScreen({
                     placeholder="Write your note..."
                 />
             </ScrollView>
+            <Toolbar />
         </Layout>
     )
 }
@@ -69,6 +74,7 @@ export default NoteDetailScreen;
 const styles = StyleSheet.create({
     header: {
         justifyContent: 'space-between',
+        alignItems: 'center',
         flexDirection: 'row',
         paddingHorizontal: 10,
         paddingVertical: 5,
@@ -76,6 +82,10 @@ const styles = StyleSheet.create({
     icon: {
         width: 32,
         height: 32,
+    },
+    iconAlt: {
+        width: 22,
+        height: 22,
     },
     container: {
         paddingHorizontal: 20,

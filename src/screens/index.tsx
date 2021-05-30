@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'flex-start',
-        marginBottom: 510,
     },
     card: {
         backgroundColor: '#000',

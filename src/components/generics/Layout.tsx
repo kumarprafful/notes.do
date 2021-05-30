@@ -23,7 +23,9 @@ function Layout({
                         {children}
                     </ScrollView>
                     :
-                    <View>
+                    <View
+                        style={styles.container}
+                    >
                         {children}
                     </View>
             }

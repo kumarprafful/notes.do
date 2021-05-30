@@ -2,9 +2,9 @@ export const theme = 'dark';
 export const PRIMARY_COLOR = 'rgb(255, 45, 85)';
 export const PRIMARY_COLOR_TRANSPARENT = 'rgba(255, 45, 85, 0.2)';
 export const ORANGE_COLOR = '#ff853c';
+export const ICON_COLOR = '#7C7C7D'
 
 export const FONT_STYLE = 'Comfortaa-VariableFont_wght';
-
 
 export const notes = [
     {
