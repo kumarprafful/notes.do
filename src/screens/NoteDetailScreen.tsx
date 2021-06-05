@@ -54,6 +54,7 @@ function NoteDetailScreen({
                     // onChangeText={(e) => console.log(e)}
                     disableFullscreenUI={true}
                     placeholder="Title"
+                    placeholderTextColor="grey"
                 />
                 <TextInput
                     ref={titleRef}
@@ -62,6 +63,7 @@ function NoteDetailScreen({
                     disableFullscreenUI={true}
                     style={styles.description}
                     placeholder="Write your note..."
+                    placeholderTextColor="grey"
                 />
             </ScrollView>
             <Toolbar />

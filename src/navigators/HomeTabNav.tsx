@@ -14,7 +14,6 @@ function HomeTabNav() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
-                    console.log(route)
                     let iconName = 'browser-outline';
                     if (route.name === 'Notes') {
                         iconName = 'browser-outline';
@@ -34,7 +33,7 @@ function HomeTabNav() {
                 }
             })}
             tabBarOptions={{
-                style:{
+                style: {
                 }
             }}
         >

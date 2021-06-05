@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
-import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, Vibration, View } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+// import { useStores } from '../hooks/useStores';
+import {
+    Dimensions,
+    Platform,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    Vibration,
+    View
+} from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import Layout from '../components/generics/Layout';
 import SearchBar from '../components/generics/SearchBar';
 import Typography from '../components/generics/Typography';
-import { PRIMARY_COLOR, PRIMARY_COLOR_TRANSPARENT, notes } from '../data';
+import { PRIMARY_COLOR, PRIMARY_COLOR_TRANSPARENT } from '../data';
+import { useStores } from '../hooks/useStores';
+import { INote } from '../store/notes';
 
 function HomeScreen({
     navigation,
+    ...props
 }: any) {
     const platform = Platform.OS;
     const isWeb = platform === 'web';
     const [selected, setSelected] = useState<any>([2,]);
+
+    const { noteStore } = useStores();
+
+    useEffect(() => {
+        noteStore.listNotes();
+    }, [])
+    const { notes } = noteStore;
 
     const select = (id: number) => {
         const index = selected.findIndex((el: number) => el === id);
@@ -39,7 +59,7 @@ function HomeScreen({
             <SearchBar />
             <ScrollView contentContainerStyle={styles.grid}>
                 {
-                    notes.map((item, index) => (
+                    notes && notes.map((item: INote, index: number) => (
                         <TouchableOpacity
                             activeOpacity={1}
                             // onLongPress={() => {
@@ -67,7 +87,7 @@ function HomeScreen({
                                 {item.title}
                             </Typography>
                             <Typography>
-                                {item.description}
+                                {item.preview}
                             </Typography>
                         </TouchableOpacity>
                     ))
@@ -77,7 +97,7 @@ function HomeScreen({
     )
 }
 
-export default HomeScreen;
+export default observer(HomeScreen);
 
 const styles = StyleSheet.create({
     grid: {
