@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-// import { useStores } from '../hooks/useStores';
 import {
     Dimensions,
     Platform,
     StyleSheet,
-    Text,
     TouchableOpacity,
-    Vibration,
-    View
 } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import Layout from '../components/generics/Layout';
 import SearchBar from '../components/generics/SearchBar';
 import Typography from '../components/generics/Typography';
-import { PRIMARY_COLOR, PRIMARY_COLOR_TRANSPARENT } from '../data';
+import { PRIMARY_COLOR_TRANSPARENT } from '../data';
 import { useStores } from '../hooks/useStores';
 import { INote } from '../store/notes';
 

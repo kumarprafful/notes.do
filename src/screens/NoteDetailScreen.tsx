@@ -1,21 +1,37 @@
 import { Icon } from '@ui-kitten/components';
-import React, { useRef } from 'react';
-import { Alert, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import Layout from "../components/generics/Layout";
 import Toolbar from '../components/generics/Toolbar';
 import Typography from "../components/generics/Typography";
-import { FONT_STYLE, ICON_COLOR, notes } from '../data';
+import NoteContents from '../components/Notes/NoteContents';
+import { FONT_STYLE, ICON_COLOR } from '../data';
+import { useStores } from '../hooks/useStores';
 
 function NoteDetailScreen({
     navigation,
     route,
 }: any) {
 
-    const { id } = route.params;
-
-    const note = notes[id - 1];
     const titleRef = useRef<any>();
+    const { id } = route.params;
+    const { noteStore } = useStores();
+    // const { note, contents, fetchANote, fetchContents } = noteStore;
+
+    useEffect(() => {
+        noteStore.fetchANote(id);
+    }, []);
+
+    console.log("noteStore.contents", noteStore.contents);
+
+    useEffect(() => {
+        console.log("--->>>>><<<<<<------");
+        if (noteStore.note) {
+            noteStore.fetchContents(noteStore.note.id);
+        }
+    }, [noteStore.note,]);
 
     return (
         <Layout
@@ -42,36 +58,42 @@ function NoteDetailScreen({
             <ScrollView
                 style={styles.container}
             >
-                <TextInput
-                    defaultValue={note.title}
-                    multiline={true}
-                    style={styles.title}
-                    onKeyPress={(e) => {
-                        if (e.nativeEvent.key === 'Enter') {
-                            titleRef.current.focus();
-                        }
-                    }}
-                    // onChangeText={(e) => console.log(e)}
-                    disableFullscreenUI={true}
-                    placeholder="Title"
-                    placeholderTextColor="grey"
-                />
-                <TextInput
-                    ref={titleRef}
-                    defaultValue={note.description}
-                    multiline={true}
-                    disableFullscreenUI={true}
-                    style={styles.description}
-                    placeholder="Write your note..."
-                    placeholderTextColor="grey"
-                />
+                {
+                    noteStore.note
+                        ?
+                        <>
+                            <TextInput
+                                defaultValue={noteStore.note.title}
+                                multiline={true}
+                                style={styles.title}
+                                onKeyPress={(e) => {
+                                    if (e.nativeEvent.key === 'Enter') {
+                                        titleRef.current.focus();
+                                    }
+                                }}
+                                // onChangeText={(e) => console.log(e)}
+                                disableFullscreenUI={true}
+                                placeholder="Title"
+                                placeholderTextColor="grey"
+                            />
+                            {
+                                noteStore.contents.length > 0 && noteStore.contents
+                                    ?
+                                    <NoteContents
+                                        contents={noteStore.contents}
+                                    />
+                                    : null
+                            }
+                        </>
+                        : null
+                }
             </ScrollView>
             <Toolbar />
         </Layout>
     )
 }
 
-export default NoteDetailScreen;
+export default observer(NoteDetailScreen);
 
 const styles = StyleSheet.create({
     header: {
